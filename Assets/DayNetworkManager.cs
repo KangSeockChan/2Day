@@ -5,8 +5,7 @@ using UnityEngine.Networking;
 
 public class DayNetworkManager : NetworkManager 
 {
-    public virtual void OnClientConnect(NetworkConnection conn)
-    {
+    public void OnClientConnect(NetworkConnection conn){
         ClientScene.Ready(conn);
         ClientScene.AddPlayer(0);
     }
