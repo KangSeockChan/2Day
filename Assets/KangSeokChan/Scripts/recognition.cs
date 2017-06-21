@@ -51,7 +51,22 @@ public class recognition : MonoBehaviour
                 }
                 else if(hit.collider.tag == "Inventory")
                 {
+                    if (!HoldText.activeInHierarchy)
+                        HoldText.SetActive(true);
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        HoldText.SetActive(false);
+                        hit.transform.gameObject.SetActive(false);
+                        hit.transform.GetComponent<Rigidbody>().isKinematic = true;
+                        hit.transform.GetComponent<BoxCollider>().enabled = false;
+                        hit.transform.GetComponent<ItemMng>().SetPosition();
+                        if(hit.transform.GetComponent<ItemMng>().CheckInventory())
+                        {
+                            hit.transform.GetComponent<ItemMng>()
+                                .Inventory_Insert(hit.transform.GetComponent<ItemMng>().ItemType);
 
+                        }
+                    }
                 }
                 else
                 {
