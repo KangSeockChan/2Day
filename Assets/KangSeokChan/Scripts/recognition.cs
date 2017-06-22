@@ -63,8 +63,7 @@ public class recognition : MonoBehaviour
                         if(hit.transform.GetComponent<ItemMng>().CheckInventory())
                         {
                             hit.transform.GetComponent<ItemMng>()
-                                .Inventory_Insert(hit.transform.GetComponent<ItemMng>().ItemType);
-
+                                .Inventory_Insert(hit.transform.GetComponent<ItemMng>().ItemType,gameObject);
                         }
                     }
                 }

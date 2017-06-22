@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemMng : MonoBehaviour
 {
@@ -30,13 +31,15 @@ public class ItemMng : MonoBehaviour
     }
 
     // 빈공간에 넣기
-    public void Inventory_Insert(int ItemType)
+    public void Inventory_Insert(int ItemType,GameObject Char)
     {
         for (int i = 0; i < Inventory_Slot; i++)
         {
             if (Inventory[i].GetComponent<InventoryMng>().ItemType.Equals(0))
             {
                 Insert(Inventory[i], ItemType);
+                Inventory[i].GetComponent<Image>().sprite = Char.GetComponent<ImageManager>().material[ItemType];
+                Inventory[i].GetComponent<Image>().color = new Color(255, 255, 255, 1);
                 break;
             }
         }
