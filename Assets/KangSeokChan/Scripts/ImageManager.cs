@@ -5,8 +5,8 @@ using UnityEngine;
 public class ImageManager : MonoBehaviour {
     /// <summary>
     /// 0~9
-    /// 0.화살
-    /// 1.활
+    /// 1.화살
+    /// 2.활
     /// </summary>
     public Sprite[] material;
 }

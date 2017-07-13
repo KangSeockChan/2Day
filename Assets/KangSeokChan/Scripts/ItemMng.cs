@@ -38,7 +38,7 @@ public class ItemMng : MonoBehaviour
             if (Inventory[i].GetComponent<InventoryMng>().ItemType.Equals(0))
             {
                 Insert(Inventory[i], ItemType);
-                Inventory[i].GetComponent<Image>().sprite = Char.GetComponent<ImageManager>().material[ItemType];
+                Inventory[i].GetComponent<Image>().sprite = Char.GetComponent<ImageManager>().material[ItemType-1];
                 Inventory[i].GetComponent<Image>().color = new Color(255, 255, 255, 1);
                 break;
             }
@@ -49,4 +49,5 @@ public class ItemMng : MonoBehaviour
     {
         inven.GetComponent<InventoryMng>().ItemType = ItemType;
     }
+
 }

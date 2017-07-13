@@ -6,6 +6,7 @@ public class BoxColliderMng : MonoBehaviour {
 
     public GameObject BoxAlpha;
     public GameObject Box;
+    public bool Object;
 
 
 	

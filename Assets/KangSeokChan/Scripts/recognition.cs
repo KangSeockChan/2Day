@@ -11,11 +11,16 @@ public class recognition : MonoBehaviour
     GameObject HoldText;
     [SerializeField]
     GameObject InstallText;
+    [SerializeField]
+    GameObject NPCText;
 
     public float deploymentHeight;
     public GameObject HandPosition;
     public Transform Rotation;
     public float distance;
+
+    public GameObject Invent;
+    public GameObject Inventory;
 
 
     [HideInInspector]
@@ -24,7 +29,7 @@ public class recognition : MonoBehaviour
     GameObject HoldingStuff;
 
     GameObject HitObject;
-    
+
 
 
     void Update()
@@ -49,38 +54,53 @@ public class recognition : MonoBehaviour
                         HoldingStuff.GetComponent<BoxCollider>().enabled = false;
                     }
                 }
-                else if(hit.collider.tag == "Inventory")
+                else if (hit.collider.tag == "Inventory")
                 {
-                    if (!HoldText.activeInHierarchy)
-                        HoldText.SetActive(true);
+                    if (hit.transform.GetComponent<ItemMng>().CheckInventory())
+                    {
+                        if (!HoldText.activeInHierarchy)
+                            HoldText.SetActive(true);
+                        if (Input.GetKeyDown(KeyCode.F))
+                        {
+                            //Invent.GetComponent<FadeOutInven>().FadeOut();
+                            HoldText.SetActive(false);
+                            hit.transform.gameObject.SetActive(false);
+                            hit.transform.GetComponent<Rigidbody>().isKinematic = true;
+                            hit.transform.GetComponent<BoxCollider>().enabled = false;
+                            hit.transform.GetComponent<ItemMng>().SetPosition();
+                            hit.transform.GetComponent<ItemMng>()
+                                .Inventory_Insert(hit.transform.GetComponent<ItemMng>().ItemType, gameObject);
+                        }
+                    }
+
+                }
+                else if (hit.collider.tag == "NPC")
+                {
+                    if (!NPCText.activeInHierarchy)
+                        NPCText.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.F))
                     {
-                        HoldText.SetActive(false);
-                        hit.transform.gameObject.SetActive(false);
-                        hit.transform.GetComponent<Rigidbody>().isKinematic = true;
-                        hit.transform.GetComponent<BoxCollider>().enabled = false;
-                        hit.transform.GetComponent<ItemMng>().SetPosition();
-                        if(hit.transform.GetComponent<ItemMng>().CheckInventory())
-                        {
-                            hit.transform.GetComponent<ItemMng>()
-                                .Inventory_Insert(hit.transform.GetComponent<ItemMng>().ItemType,gameObject);
-                        }
+
                     }
                 }
                 else
                 {
                     if (HoldText.activeInHierarchy)
                         HoldText.SetActive(false);
+                    if (NPCText.activeInHierarchy)
+                        NPCText.SetActive(false);
                 }
             }
             else
             {
                 if (HoldText.activeInHierarchy)
                     HoldText.SetActive(false);
+                if (NPCText.activeInHierarchy)
+                    NPCText.SetActive(false);
             }
 
         }
-        else if(Holdstuff)
+        else if (Holdstuff)
         {
             // 잡고잇는 물건 위치
             HoldingStuff.transform.position = HandPosition.transform.position + HandPosition.transform.forward * distance;
@@ -89,7 +109,7 @@ public class recognition : MonoBehaviour
             // 설치
             if (Physics.Raycast(landingRay, out hit, deploymentHeight, InstallerMask))
             {
-                if (hit.collider.tag == "Installer_Hide")
+                if (hit.collider.tag == "Installer_Hide" && hit.transform.GetComponent<BoxColliderMng>().Object.Equals(false))
                 {
                     hit.transform.GetComponent<BoxColliderMng>().BoxAlpha.SetActive(true);
                     HitObject = hit.transform.gameObject;
@@ -101,12 +121,13 @@ public class recognition : MonoBehaviour
                         InstallText.SetActive(false);
                         hit.transform.GetComponent<BoxColliderMng>().Box.SetActive(true);
                         HoldingStuff.GetComponent<ResetPosition>().ResetPos();
+                        hit.transform.GetComponent<BoxColliderMng>().Object = true;
                     }
                 }
                 else
                 {
                     if (InstallText.activeInHierarchy)
-                        InstallText.SetActive(false);                    
+                        InstallText.SetActive(false);
                 }
             }
             else
